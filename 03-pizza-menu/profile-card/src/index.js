@@ -33,16 +33,41 @@ function Intro() {
     );
 }
 
+const skills = [
+    {
+        skill: "Javascript",
+        level: "advanced",
+        color: "lightblue",
+    },
+    {
+        skill: "CSS",
+        level: "beginner",
+        color: "green",
+    },
+    {
+        skill: "Vue",
+        level: "intermediate",
+        color: "salmon",
+    },
+];
+
 function SkillList() {
-	return <div className="skill-list">
-		<Skill title="Javascript" color="lightblue" emoji="happy" />
-		<Skill title="CSS" color="green" emoji="angry" />
-		<Skill title="Vue" color="salmon" emoji="sad" />
-	</div>
+    const skillsArray = skills;
+    return (
+        <div className="skill-list">
+            {skillsArray.map((skill) => (
+                <Skill title={skill.skill} color={skill.color} emoji={skill.level} />
+            ))}
+        </div>
+    );
 }
 
-function Skill(props) {
-	return <span className="skill" style={{backgroundColor: props.color}}>{props.title} {props.emoji}</span>
+function Skill({ title, color, emoji }) {
+    return (
+        <span className="skill" style={{ backgroundColor: color }}>
+            {title} {emoji}
+        </span>
+    );
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
