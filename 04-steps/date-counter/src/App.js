@@ -10,18 +10,8 @@ export default function App() {
 
 function Counter() {
     const today = new Date();
-    const [count, setCount] = useState(1);
+    const [count, setCount] = useState(0);
     const [step, setStep] = useState(1);
-
-    function handleLowerStep() {
-        if (step > 1) {
-            setStep((currentStep) => currentStep - 1);
-        }
-    }
-
-    function handleHigerStep() {
-        setStep((currentStep) => currentStep + 1);
-    }
 
     function handleLowerCount() {
         setCount((currentCount) => currentCount - step);
@@ -31,31 +21,29 @@ function Counter() {
         setCount((currentCount) => currentCount + step);
     }
 
+    today.setDate(today.getDate() + count);
+
+    function handleReset() {
+        setCount(0);
+        setStep(1);
+    }
+
     return (
         <div>
             <div>
-                <button onClick={handleLowerStep}>-</button>
+                <input type="range" min={1} max={10} value={step} onChange={(e) => setStep(Number(e.target.value))}></input>
                 <p>Step: {step}</p>
-                <button onClick={handleHigerStep}>+</button>
             </div>
             <div>
                 <button onClick={handleLowerCount}>-</button>
-                <p>Count: {count}</p>
+                <input type="text" value={count} onChange={(e) => setCount(Number(e.target.value))} />
                 <button onClick={handleHigherCount}>+</button>
             </div>
             <div>
-                {count === 0 && <p>Today is {today.toLocaleDateString()};</p>}
-                {count > 0 && (
-                    <p>
-                        {count} {count > 1 ? "days" : "day"} from today is {new Date(today + count * 1000 * 60 * 60 * 24).toLocaleDateString()}
-                    </p>
-                )}
-                {count < 0 && (
-                    <p>
-                        {count} {count < -1 ? "days" : "day"} ago was {new Date(today - count * 1000 * 60 * 60 * 24).toLocaleDateString()}
-                    </p>
-                )}
+                <span>{count === 0 ? "Today is " : count > 0 ? `${count} days from today is ` : `${Math.abs(count)} days ago was `}</span>
+                <span>{today.toDateString()}</span>
             </div>
+            {(step !== 1 || count !== 0) && <button onClick={handleReset}>Reset</button>}
         </div>
     );
 }
